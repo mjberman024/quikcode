@@ -1,4 +1,12 @@
+html,
 body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+/* body {
   font-family: sans-serif;
 }
 
@@ -17,5 +25,23 @@ nav a {
 
 form div {
   margin: 1em;
+  display: inline-block;
+} */
+
+button {
+  margin: 0 auto;
+}
+
+.runcode {
+  height: 80%;
+  width: 50%;
+  display: inline-block;
+  text-align: center;
+  position: relative;
+}
+
+.editor {
+  height: 80%;
+  width: 50%;
   display: inline-block;
 }
