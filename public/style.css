@@ -1,47 +1,61 @@
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
+  font: sans-serif;
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
 }
 
-/* body {
-  font-family: sans-serif;
+h1 {
+  text-align: center;
+  margin: 10px;
 }
 
-a {
-  text-decoration: none;
+.container {
+  display: flex;
+  flex-direction: row;
 }
 
-label {
-  display: block;
+.instructions {
+  width: 40%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 
-nav a {
-  display: inline-block;
-  margin: 1em;
+.problem {
+  height: 35vh;
+  padding: 15px;
+  border: 2px black solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-form div {
-  margin: 1em;
-  display: inline-block;
-} */
+.results {
+  height: 35vh;
+  width: 100%;
+  padding: 15px;
+  border: 2px black solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.userOutput {
+  overflow-wrap: break-word;
+}
 
 button {
   margin: 0 auto;
-}
-
-.runcode {
-  height: 80%;
-  width: 50%;
-  display: inline-block;
-  text-align: center;
-  position: relative;
-}
-
-.editor {
-  height: 80%;
-  width: 50%;
-  display: inline-block;
+  color: green;
+  background-color: lightgreen;
 }

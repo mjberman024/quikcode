@@ -1,11 +1,13 @@
+import React, {Component} from 'react'
 import {render} from 'react-dom'
 import brace from 'brace'
 import AceEditor from 'react-ace'
+import {connect} from 'react-redux'
+
+import {updateUserCode} from '../store'
 
 import 'brace/mode/javascript'
 import 'brace/theme/monokai'
-
-import React, {Component} from 'react'
 
 export class Editor extends Component {
   constructor(props) {
@@ -22,16 +24,12 @@ export class Editor extends Component {
   }
   runCode = () => {
     let results = eval(this.state.userFunc)
-    console.log('here', results)
+    console.log('results', results)
+    this.props.updateUserCode(results)
   }
   render() {
     return (
-      <div>
-        <div className="runcode">
-          <button type="button" onClick={this.runCode}>
-            Run Code
-          </button>
-        </div>
+      <div className="codeBox">
         <AceEditor
           mode="javascript"
           theme="monokai"
@@ -40,9 +38,23 @@ export class Editor extends Component {
           className="editor"
           value={this.state.userFunc}
           // editorProps={{$blockScrolling: true}}
-          style={{width: '50vw', height: '100vh'}}
+          style={{width: '60vw', height: '80vh'}}
         />
+        <div className="">
+          <button type="button" onClick={this.runCode}>
+            Run Code
+          </button>
+        </div>
       </div>
     )
   }
 }
+
+const mapStateToProps = state => ({
+  userCode: state.code.userCode
+})
+
+const mapDispatchToProps = dispatch => ({
+  updateUserCode: userCode => dispatch(updateUserCode(userCode))
+})
+export const CodeEditor = connect(mapStateToProps, mapDispatchToProps)(Editor)
