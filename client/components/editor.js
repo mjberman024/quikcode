@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {render} from 'react-dom'
 import brace from 'brace'
 import AceEditor from 'react-ace'
 import {connect} from 'react-redux'
@@ -23,9 +22,16 @@ export class Editor extends Component {
     this.setState({userFunc: newValue})
   }
   runCode = () => {
-    let results = eval(this.state.userFunc)
-    console.log('results', results)
-    this.props.updateUserCode(results)
+    try {
+      let results = eval(this.state.userFunc)
+
+      console.log('results', results)
+
+      this.props.updateUserCode(results, false)
+    } catch (e) {
+      console.log(e.message)
+      this.props.updateUserCode(e.message, true)
+    }
   }
   render() {
     return (
@@ -37,7 +43,8 @@ export class Editor extends Component {
           name="editor"
           className="editor"
           value={this.state.userFunc}
-          // editorProps={{$blockScrolling: true}}
+          defaultValue={`asdf\n     adf`}
+          editorProps={{$blockScrolling: true}}
           style={{width: '60vw', height: '80vh'}}
         />
         <div className="">
@@ -55,6 +62,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  updateUserCode: userCode => dispatch(updateUserCode(userCode))
+  updateUserCode: (userCode, error) => dispatch(updateUserCode(userCode, error))
 })
 export const CodeEditor = connect(mapStateToProps, mapDispatchToProps)(Editor)

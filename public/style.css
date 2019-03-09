@@ -1,14 +1,20 @@
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
 html,
 body {
-  font: sans-serif;
-  margin: 0;
-  padding: 0;
+  background-color: #7f99ee;
+  font: 'cambria', sans-serif;
+
   height: 100%;
   width: 100%;
+}
+
+.title {
+  color: black;
 }
 
 h1 {
@@ -21,8 +27,13 @@ h1 {
   flex-direction: row;
 }
 
+.info_child {
+  font-size: 20px;
+  flex: 1;
+}
+
 .instructions {
-  width: 40%;
+  width: 50%;
   height: 100%;
   position: relative;
   display: flex;
@@ -52,10 +63,13 @@ h1 {
 
 .userOutput {
   overflow-wrap: break-word;
+  font-size: 20px;
 }
 
 button {
   margin: 0 auto;
-  color: green;
-  background-color: lightgreen;
+  height: 40px;
+  width: 100px;
+  color: white;
+  background-color: green;
 }

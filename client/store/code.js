@@ -1,18 +1,29 @@
 const UPDATE_USER_CODE = 'UPDATE_USER_CODE'
+const CHANGE_PROBLEM = 'CHANGE_PROBLEM'
 
 const initialState = {
-  userCode: []
+  problem: '',
+  result: {},
+  isError: ''
 }
 
-export const updateUserCode = userCode => ({
+export const updateUserCode = (result, isError) => ({
   type: UPDATE_USER_CODE,
-  userCode
+  result,
+  isError
+})
+
+export const changeProblem = problem => ({
+  type: CHANGE_PROBLEM,
+  problem
 })
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case UPDATE_USER_CODE:
-      return {userCode: action.userCode}
+      return {...state, result: action.result, isError: action.isError}
+    case CHANGE_PROBLEM:
+      return {...state, problem: action.problem}
     default:
       return state
   }
