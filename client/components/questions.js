@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 
 import {changeProblem} from '../store'
 
+import Problems from '../Constants'
+
 export class questions extends Component {
   render() {
     return (
@@ -12,12 +14,15 @@ export class questions extends Component {
           <span>
             <select
               onChange={e => {
-                // console.log(e.target.value)
+                console.log('....', e.target.value)
                 this.props.changeProblem(e.target.value)
               }}
             >
-              <option value="backwards_array">Backwards Array</option>
-              <option value="count_vowels">Count Vowels</option>
+              {Problems.map(item => (
+                <option key={item.problemIndex} value={item.problemValue}>
+                  {item.problemName}
+                </option>
+              ))}
             </select>
           </span>
         </h2>

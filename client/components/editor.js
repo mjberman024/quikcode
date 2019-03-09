@@ -3,7 +3,8 @@ import brace from 'brace'
 import AceEditor from 'react-ace'
 import {connect} from 'react-redux'
 
-import {updateUserCode} from '../store'
+import {getUserResult, updateUserCode} from '../store'
+import Problems from '../Constants'
 
 import 'brace/mode/javascript'
 import 'brace/theme/monokai'
@@ -11,29 +12,50 @@ import 'brace/theme/monokai'
 export class Editor extends Component {
   constructor(props) {
     super(props)
+    const question = this.props.problemName || 'backwards_array'
+    const editorValue = Problems.filter(item => {
+      return item.problemValue === question
+    })
     this.state = {
-      userFunc: ''
+      userFunc: editorValue[0].problemTemplate
     }
     this.onChange = this.onChange.bind(this)
     this.runCode = this.runCode.bind(this)
   }
-  onChange = (newValue, e) => {
-    // console.log('event', e)
+
+  componentDidMount() {
+    const question = this.props.problemName || 'backwards_array'
+    const editorValue = Problems.filter(item => {
+      return item.problemValue === question
+    })
+    this.props.updateUserCode(editorValue[0].problemTemplate)
+  }
+
+  onChange = newValue => {
+    this.props.updateUserCode(newValue)
     this.setState({userFunc: newValue})
   }
   runCode = () => {
     try {
-      let results = eval(this.state.userFunc)
-
-      console.log('results', results)
-
-      this.props.updateUserCode(results, false)
+      const question = this.props.problemName || 'backwards_array'
+      const problemFunction = Problems.filter(item => {
+        return item.problemValue === question
+      })
+      let evalStr =
+        this.state.userFunc + '\n\n' + problemFunction[0].problemFunctionCall
+      let results = eval(evalStr)
+      this.props.getUserResult(results, false)
     } catch (e) {
-      console.log(e.message)
-      this.props.updateUserCode(e.message, true)
+      this.props.getUserResult(e.message, true)
     }
   }
+
   render() {
+    // const question = this.props.problemName || 'backwards_array'
+    // const editorValue = Problems.filter(item => {
+    //   return item.problemValue === question
+    // })
+    console.log('RERENDERING')
     return (
       <div className="codeBox">
         <AceEditor
@@ -42,8 +64,9 @@ export class Editor extends Component {
           onChange={this.onChange}
           name="editor"
           className="editor"
-          value={this.state.userFunc}
-          defaultValue={`asdf\n     adf`}
+          value={this.props.usersCode}
+          fontSize={16}
+          // defaultValue={this.props.problemName} //{`${editorValue[0].problemTemplate}`}
           editorProps={{$blockScrolling: true}}
           style={{width: '60vw', height: '80vh'}}
         />
@@ -58,10 +81,12 @@ export class Editor extends Component {
 }
 
 const mapStateToProps = state => ({
-  userCode: state.code.userCode
+  usersCode: state.code.usersCode,
+  problemName: state.code.problem
 })
 
 const mapDispatchToProps = dispatch => ({
-  updateUserCode: (userCode, error) => dispatch(updateUserCode(userCode, error))
+  getUserResult: (userCode, error) => dispatch(getUserResult(userCode, error)),
+  updateUserCode: userCode => dispatch(updateUserCode(userCode))
 })
 export const CodeEditor = connect(mapStateToProps, mapDispatchToProps)(Editor)
